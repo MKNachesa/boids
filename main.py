@@ -43,8 +43,9 @@ def update_turtle_positions(turtles_list):
 
         new_velocity = sum(velocities_list) + bounding_velocity
         new_velocity = (new_velocity + turtle_velocity)
-        if i == -1:
-            new_velocity = speed_restriction_rule(new_velocity)
+        # if i == -1:
+        #     new_velocity = speed_restriction_rule(new_velocity)
+        new_velocity = speed_restriction_rule(new_velocity)
         new_heading = velocity_to_heading(new_velocity)
         new_speed = np.linalg.norm(new_velocity)
         new_pos = cur_pos + new_velocity

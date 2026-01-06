@@ -1,8 +1,12 @@
 from utils import *
 
-MIN_DIST = 20
-COHESION_SCALER = 100
-VELOCITY_SCALER = 8
+MIN_DIST = 10
+COHESION_SCALER = 800
+VELOCITY_SCALER = 10
+SEPARATION_SCALER = 1
+
+MAX_SPEED = 30
+MIN_SPEED = 5
 
 
 def separation_rule(t_id, turtles_list):
@@ -16,12 +20,12 @@ def separation_rule(t_id, turtles_list):
                 diff = (other_t_pos - t_pos).flatten()
                 separation_velocity -= diff
 
-    separation_velocity = separation_velocity.flatten()
+    separation_velocity = separation_velocity.flatten() / SEPARATION_SCALER
 
     return separation_velocity
 
 
-def cohesion_rule(t_id, turtles_list, max_neighbor_dist=MIN_DIST+30):
+def cohesion_rule(t_id, turtles_list, max_neighbor_dist=MIN_DIST+40):
     new_pos = np.array([0, 0], dtype=float).flatten()
     t_pos = np.array([turtles_list[t_id].pos()], dtype=float)
     num_neighbors = 0
@@ -96,7 +100,7 @@ def direction_change_rule(t_id, turtles_list):
     return heading_change_velocity
 
 
-def speed_restriction_rule(t_velocity, minim_speed=10, maxim_speed=20):
+def speed_restriction_rule(t_velocity, minim_speed=MIN_SPEED, maxim_speed=MAX_SPEED):
     t_speed = np.linalg.norm(t_velocity)
     if t_speed < minim_speed:
         t_velocity = t_velocity / t_speed * minim_speed
